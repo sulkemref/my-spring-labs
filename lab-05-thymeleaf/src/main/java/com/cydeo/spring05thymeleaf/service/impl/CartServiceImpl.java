@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
         if(CART.getCartItemList().stream().anyMatch(p -> p.getProduct().getId().equals(productId))){    // if we already have this product only increase quantity
             cartItem = CART.getCartItemList().stream()
                     .filter(p -> p.getProduct().getId()
-                            .equals(productId)).findAny()
+                    .equals(productId)).findAny()
                     .orElseThrow();
             cartItem.setQuantity(cartItem.getQuantity()+1);
         }else{
@@ -50,6 +50,7 @@ public class CartServiceImpl implements CartService {
 
         //todo calculate cart total amount
         calculateCartAmount();
+        removeZeroRemainingQuantityProductsFromList();
 
         return CART;
     }
@@ -72,10 +73,14 @@ public class CartServiceImpl implements CartService {
     }
 
     private void calculateCartAmount(){
-        CART.setCartTotalAmount(BigDecimal.ZERO);
-        CART.setCartTotalAmount(CART.getCartItemList().stream().map(CartItem::getTotalAmount).reduce(BigDecimal::add).get());
-//        for (CartItem item : CART.getCartItemList()) {
-//            CART.setCartTotalAmount(CART.getCartTotalAmount().add(item.getTotalAmount()));
-//        }
+    CART.setCartTotalAmount(CART.getCartItemList().stream()
+            .map(CartItem::getTotalAmount)
+            .reduce(BigDecimal::add)
+            .orElse(BigDecimal.ZERO));
+
+    }
+
+    private void removeZeroRemainingQuantityProductsFromList(){
+        productService.listProduct().removeIf(p -> p.getRemainingQuantity()==0);
     }
 }
