@@ -61,7 +61,7 @@ public class CartServiceImpl implements CartService {
         CART.getCartItemList().remove
                 (CART.getCartItemList().stream()
                         .filter(p -> p.getProduct().getId().equals(productId))
-                        .findFirst().get());
+                        .findFirst().orElseThrow());
 
         calculateCartAmount();
         return true;

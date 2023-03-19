@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean productCreate(Product product){
         if(productRepository.findAll().stream().anyMatch(p->p.getName().equals(product.getName()))){
-            // rewrite price and quantity if we have name
+//          rewrite price and quantity if we have name
 //           for (int i = 0 ; i<  productRepository.findAll().size(); i++){
 //               if(product.getName().equals(productRepository.findAll().get(i).getName())){
 //                   productRepository.findAll().get(i).setPrice(product.getPrice());
@@ -32,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
         product.setId(UUID.randomUUID());
         product.setQuantity(product.getRemainingQuantity());
         return productRepository.save(product);
-
     }
 
     @Override
