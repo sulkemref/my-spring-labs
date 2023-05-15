@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface AddressRepository extends JpaRepository<Address,String> {
+public interface AddressRepository extends JpaRepository<Address,Long> {
 
     //Write a derived query to get all address with a specific customer
     List<Address> findAllByCustomer(Customer customer);
