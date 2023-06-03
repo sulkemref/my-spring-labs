@@ -8,12 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -97,6 +93,5 @@ public class ProductController {
                 .status(HttpStatus.OK)
                 .body(new ResponseWrapper("Products are successfully retrieved",productService.getProductListByCategory(id),HttpStatus.OK));
     }
-
 
 }

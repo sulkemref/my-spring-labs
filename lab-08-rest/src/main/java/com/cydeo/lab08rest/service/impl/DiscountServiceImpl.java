@@ -1,7 +1,6 @@
 package com.cydeo.lab08rest.service.impl;
 
 import com.cydeo.lab08rest.dto.DiscountDTO;
-import com.cydeo.lab08rest.entity.Customer;
 import com.cydeo.lab08rest.entity.Discount;
 import com.cydeo.lab08rest.mapper.MapperUtil;
 import com.cydeo.lab08rest.repository.DiscountRepository;

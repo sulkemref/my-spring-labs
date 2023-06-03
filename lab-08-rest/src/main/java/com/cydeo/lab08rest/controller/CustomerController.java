@@ -1,6 +1,5 @@
 package com.cydeo.lab08rest.controller;
 
-import com.cydeo.lab08rest.dto.AddressDTO;
 import com.cydeo.lab08rest.dto.CustomerDTO;
 import com.cydeo.lab08rest.model.ResponseWrapper;
 import com.cydeo.lab08rest.service.CustomerService;

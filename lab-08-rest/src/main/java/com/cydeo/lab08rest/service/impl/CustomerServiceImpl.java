@@ -1,7 +1,6 @@
 package com.cydeo.lab08rest.service.impl;
 
 import com.cydeo.lab08rest.dto.CustomerDTO;
-import com.cydeo.lab08rest.entity.Address;
 import com.cydeo.lab08rest.entity.Customer;
 import com.cydeo.lab08rest.mapper.MapperUtil;
 import com.cydeo.lab08rest.repository.CustomerRepository;
@@ -9,7 +8,6 @@ import com.cydeo.lab08rest.service.CustomerService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
