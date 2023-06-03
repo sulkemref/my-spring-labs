@@ -30,6 +30,7 @@ class AddressControllerTest {
                         .get("/api/v1/address")
                         .accept(MediaType.APPLICATION_JSON));
                 actions.andExpect(status().isOk())
+
                         .andExpect(MockMvcResultMatchers.jsonPath("$.data.size()").value(650));
 
     }
