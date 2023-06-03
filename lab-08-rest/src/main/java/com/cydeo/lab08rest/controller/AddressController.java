@@ -27,7 +27,7 @@ public class AddressController {
 
     @PutMapping()
     public ResponseEntity<ResponseWrapper> updateAddress (@RequestBody AddressDTO addressDTO){
-        addressService.updateAddress(addressDTO.getId(),addressDTO);
+        addressService.updateAddress(addressDTO);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ResponseWrapper("Address is updated",addressDTO,HttpStatus.CREATED));

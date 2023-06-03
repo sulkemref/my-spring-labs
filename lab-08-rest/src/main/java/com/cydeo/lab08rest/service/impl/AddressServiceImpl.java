@@ -36,7 +36,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void updateAddress(Long addressId, AddressDTO addressDTO) {
+    public void updateAddress(AddressDTO addressDTO) {
+        Long addressId = addressDTO.getId();
 
         Address address = mapperUtil.convert(addressDTO, new Address());
 

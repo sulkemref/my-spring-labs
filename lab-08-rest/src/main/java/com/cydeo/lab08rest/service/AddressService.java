@@ -9,7 +9,7 @@ public interface AddressService {
 
     List<AddressDTO> getAddresses();
 
-    void updateAddress(Long addressId, AddressDTO addressDTO);
+    void updateAddress(AddressDTO addressDTO);
 
     AddressDTO createAddress(AddressDTO addressDTO);
 
