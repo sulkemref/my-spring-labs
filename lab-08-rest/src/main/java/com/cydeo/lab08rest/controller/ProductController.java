@@ -31,4 +31,10 @@ public class ProductController {
                 productService.updateProduct(productDTO),HttpStatus.OK));
     }
 
+    @PostMapping
+    public ResponseEntity<ResponseWrapper> createProduct(@RequestBody ProductDTO productDTO){
+        return ResponseEntity.ok(new ResponseWrapper("Product is successfully created",
+                productService.createProduct(productDTO),HttpStatus.OK));
+    }
+
 }
