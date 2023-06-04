@@ -65,4 +65,18 @@ public class ProductController {
                 productService.countProductByPrice(price),HttpStatus.OK));
     }
 
+    @GetMapping("/price/{price}/quantity/{quantity}")
+    public ResponseEntity<ResponseWrapper> retrieveProductByPriceAndQuantity(@PathVariable("price")BigDecimal price,
+                                                                             @PathVariable("quantity") Integer quantity){
+        return ResponseEntity.ok(new ResponseWrapper("Products are successfully retrieved.",
+                productService.retrieveProductByPriceAndQuantity(price,quantity),HttpStatus.OK));
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<ResponseWrapper> retriveByCategory(@PathVariable("id") Long categoryId){
+        return ResponseEntity.ok(new ResponseWrapper("Products are successfully retrieved.",
+                productService.retrieveByCategory(categoryId),HttpStatus.OK));
+    }
+
+
 }
