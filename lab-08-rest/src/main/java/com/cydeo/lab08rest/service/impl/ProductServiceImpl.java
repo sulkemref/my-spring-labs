@@ -49,4 +49,20 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.retrieveProductListByCategory(categoryList,price).stream()
                 .map(product -> mapperUtil.convert(product,new ProductDTO())).collect(Collectors.toList());
     }
+
+    @Override
+    public ProductDTO retrieveByName(String name) {
+        return mapperUtil.convert(productRepository.findFirstByName(name),new ProductDTO());
+    }
+
+    @Override
+    public List<ProductDTO> retrieveProductByTop3ProductPrice() {
+        return productRepository.findTop3ByOrderByPriceDesc().stream()
+                .map(product -> mapperUtil.convert(product,new ProductDTO())).collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer countProductByPrice(BigDecimal price) {
+        return productRepository.countProductByPriceGreaterThan(price);
+    }
 }

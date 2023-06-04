@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
@@ -43,6 +45,24 @@ public class ProductController {
     public ResponseEntity<ResponseWrapper> retrieveProductByCategoryAndPrice(@RequestBody ProductRequest productRequest){
         return ResponseEntity.ok(new ResponseWrapper("Products are successfully retrieved.",
                 productService.retrieveAllProductByCategoryAndPrice(productRequest.getCategoryList(),productRequest.getPrice()),HttpStatus.OK));
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<ResponseWrapper> retrieveProductByName(@PathVariable("name") String name){
+        return ResponseEntity.ok(new ResponseWrapper("Product is successfully retrieved.",
+                productService.retrieveByName(name),HttpStatus.OK));
+    }
+
+    @GetMapping("/top3")
+    public ResponseEntity<ResponseWrapper> retrieveProductByTop3ProductByPrice(){
+        return ResponseEntity.ok(new ResponseWrapper("Product is successfully retrieved.",
+                productService.retrieveProductByTop3ProductPrice(),HttpStatus.OK));
+    }
+
+    @GetMapping("/price/{price}")
+    public ResponseEntity<ResponseWrapper> countProductsByPrice(@PathVariable("price")BigDecimal price){
+        return ResponseEntity.ok(new ResponseWrapper("Product is successfully retrieved.",
+                productService.countProductByPrice(price),HttpStatus.OK));
     }
 
 }
