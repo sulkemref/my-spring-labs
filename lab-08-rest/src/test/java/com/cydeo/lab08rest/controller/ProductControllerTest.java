@@ -113,7 +113,7 @@ class ProductControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").value(244));
     }
     @Test
-    public void getProductListByPriceAndQuantity() throws Exception {
+    public void getProductListByCategoryAndPrice() throws Exception {
         List<Long> array = new ArrayList<>();
         array.add(1L);
         array.add(2L);

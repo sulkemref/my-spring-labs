@@ -7,6 +7,7 @@ import com.cydeo.lab08rest.repository.ProductRepository;
 import com.cydeo.lab08rest.service.ProductService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,5 +42,11 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO createProduct(ProductDTO productDTO) {
         Product product = productRepository.save(mapperUtil.convert(productDTO, new Product()));
         return mapperUtil.convert(product,new ProductDTO());
+    }
+
+    @Override
+    public List<ProductDTO> retrieveAllProductByCategoryAndPrice(List<Long> categoryList, BigDecimal price) {
+        return productRepository.retrieveProductListByCategory(categoryList,price).stream()
+                .map(product -> mapperUtil.convert(product,new ProductDTO())).collect(Collectors.toList());
     }
 }

@@ -1,8 +1,10 @@
 package com.cydeo.lab08rest.controller;
 
 import com.cydeo.lab08rest.dto.ProductDTO;
+import com.cydeo.lab08rest.dto.ProductRequest;
 import com.cydeo.lab08rest.model.ResponseWrapper;
 import com.cydeo.lab08rest.service.ProductService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,12 @@ public class ProductController {
     public ResponseEntity<ResponseWrapper> createProduct(@RequestBody ProductDTO productDTO){
         return ResponseEntity.ok(new ResponseWrapper("Product is successfully created",
                 productService.createProduct(productDTO),HttpStatus.OK));
+    }
+
+    @PostMapping("/categoryandprice")
+    public ResponseEntity<ResponseWrapper> retrieveProductByCategoryAndPrice(@RequestBody ProductRequest productRequest){
+        return ResponseEntity.ok(new ResponseWrapper("Products are successfully retrieved.",
+                productService.retrieveAllProductByCategoryAndPrice(productRequest.getCategoryList(),productRequest.getPrice()),HttpStatus.OK));
     }
 
 }
