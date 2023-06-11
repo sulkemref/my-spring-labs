@@ -46,7 +46,11 @@ public class OrderServiceImpl implements OrderService {
         //then we need to check if the order fields are exist or not
         validateRelatedFieldsAreExist(orderDTO);
 
-        return null;
+        //if fields are exists, then convert orderDTO to order and save it
+        Order willBeUpdatedOrder = mapperUtil.convert(orderDTO, new Order());
+        Order updatedOrder = orderRepository.save(willBeUpdatedOrder);
+        //convert again the updated one and return it
+        return mapperUtil.convert(updatedOrder,new OrderDTO());
     }
 
     private void validateRelatedFieldsAreExist(OrderDTO orderDTO) {
@@ -54,13 +58,16 @@ public class OrderServiceImpl implements OrderService {
         //we will create service and existById method and verify
 
         if(!customerService.existById(orderDTO.getCustomerId())){
-            throw new RuntimeException("Customer could not found");
+            throw new RuntimeException("Customer could not be found");
         }
 
         if(!paymentService.existById(orderDTO.getPaymentId())){
-            throw new RuntimeException("Payment could not found");
+            throw new RuntimeException("Payment could not be found");
         }
 
+        if(!cartService.existById(orderDTO.getCartId())){
+            throw new RuntimeException("Cart could not be found");
+        }
 
 
     }
