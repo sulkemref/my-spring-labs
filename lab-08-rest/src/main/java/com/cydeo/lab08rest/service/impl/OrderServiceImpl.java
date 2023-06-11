@@ -22,9 +22,12 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentService paymentService;
     private final CartService cartService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, MapperUtil mapperUtil) {
+    public OrderServiceImpl(OrderRepository orderRepository, MapperUtil mapperUtil, CustomerService customerService, PaymentService paymentService, CartService cartService) {
         this.orderRepository = orderRepository;
         this.mapperUtil = mapperUtil;
+        this.customerService = customerService;
+        this.paymentService = paymentService;
+        this.cartService = cartService;
     }
 
     @Override
@@ -50,7 +53,15 @@ public class OrderServiceImpl implements OrderService {
         //in this method we have 3 different service and make sure they have those fields
         //we will create service and existById method and verify
 
-        if()
+        if(!customerService.existById(orderDTO.getCustomerId())){
+            throw new RuntimeException("Customer could not found");
+        }
+
+        if(!paymentService.existById(orderDTO.getPaymentId())){
+            throw new RuntimeException("Payment could not found");
+        }
+
+
 
     }
 }
