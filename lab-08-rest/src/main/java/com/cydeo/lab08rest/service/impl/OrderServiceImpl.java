@@ -1,6 +1,7 @@
 package com.cydeo.lab08rest.service.impl;
 
 import com.cydeo.lab08rest.dto.OrderDTO;
+import com.cydeo.lab08rest.dto.UpdateOrderDTO;
 import com.cydeo.lab08rest.entity.Order;
 import com.cydeo.lab08rest.mapper.MapperUtil;
 import com.cydeo.lab08rest.repository.OrderRepository;
@@ -51,6 +52,34 @@ public class OrderServiceImpl implements OrderService {
         Order updatedOrder = orderRepository.save(willBeUpdatedOrder);
         //convert again the updated one and return it
         return mapperUtil.convert(updatedOrder,new OrderDTO());
+    }
+
+    @Override
+    public OrderDTO updateOrderById(Long id, UpdateOrderDTO updateOrderDTO) {
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Order could not be found."));
+        //if we are getting the same value, it is not necessary to update the actual value
+
+        boolean changeDetected = false;
+
+        if (!order.getPaidPrice().equals(updateOrderDTO.getPaidPrice())){
+           order.setPaidPrice(updateOrderDTO.getPaidPrice());
+           changeDetected =true;
+        }
+
+        if(!order.getTotalPrice().equals(updateOrderDTO.getTotalPrice())){
+            order.setTotalPrice(updateOrderDTO.getTotalPrice());
+            changeDetected=true;
+        }
+
+        //if there is any change, update the order and return it
+        if(changeDetected){
+            Order updateOrder = orderRepository.save(order);
+            return mapperUtil.convert(updateOrder,new OrderDTO());
+        }else{
+            throw new RuntimeException("No changes detected");
+        }
+
     }
 
     private void validateRelatedFieldsAreExist(OrderDTO orderDTO) {
