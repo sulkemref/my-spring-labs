@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderDTO> retrieveOrderList();
+
+    OrderDTO updateOrder(OrderDTO orderDTO);
 }
