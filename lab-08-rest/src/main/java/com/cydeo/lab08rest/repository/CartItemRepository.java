@@ -1,6 +1,8 @@
 package com.cydeo.lab08rest.repository;
 
+import com.cydeo.lab08rest.entity.Cart;
 import com.cydeo.lab08rest.entity.CartItem;
+import com.cydeo.lab08rest.entity.Product;
 import com.cydeo.lab08rest.enums.CartState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +13,6 @@ import java.util.List;
 
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem,Long> {
-
     //Write a derived query to get count cart items
     Integer countAllBy();
     Integer countCartItemBy();
@@ -33,4 +34,10 @@ public interface CartItemRepository extends JpaRepository<CartItem,Long> {
     @Query(value="SELECT * FROM cart_item ci JOIN cart c ON  ci.cart_id=c.id JOIN discount d ON c.discount_id =d.id " +
             "WHERE c.cart_state=?1 AND d.discount_type = ?2", nativeQuery = true)
     List<CartItem> retrieveCartItemsByCartStateAndDiscountType(@Param("cartState") String cartState, @Param("discountType") String discountType);
+
+
+    // newly added
+    CartItem findAllByCartAndProduct(Cart cart, Product product);
+
+    List<CartItem> findAllByCart(Cart cart);
 }
