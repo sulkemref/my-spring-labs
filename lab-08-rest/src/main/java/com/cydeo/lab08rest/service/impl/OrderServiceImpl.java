@@ -7,10 +7,7 @@ import com.cydeo.lab08rest.enums.CartState;
 import com.cydeo.lab08rest.enums.PaymentMethod;
 import com.cydeo.lab08rest.exception.NotFoundException;
 import com.cydeo.lab08rest.mapper.MapperUtil;
-import com.cydeo.lab08rest.repository.CartItemRepository;
-import com.cydeo.lab08rest.repository.CartRepository;
-import com.cydeo.lab08rest.repository.CustomerRepository;
-import com.cydeo.lab08rest.repository.OrderRepository;
+import com.cydeo.lab08rest.repository.*;
 import com.cydeo.lab08rest.service.CartService;
 import com.cydeo.lab08rest.service.CustomerService;
 import com.cydeo.lab08rest.service.OrderService;
@@ -33,8 +30,9 @@ public class OrderServiceImpl implements OrderService {
     private final CustomerRepository customerRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final PaymentRepository paymentRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, MapperUtil mapperUtil, CustomerService customerService, PaymentService paymentService, CartService cartService, CustomerRepository customerRepository, CartRepository cartRepository, CartItemRepository cartItemRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, MapperUtil mapperUtil, CustomerService customerService, PaymentService paymentService, CartService cartService, CustomerRepository customerRepository, CartRepository cartRepository, CartItemRepository cartItemRepository, PaymentRepository paymentRepository) {
         this.orderRepository = orderRepository;
         this.mapperUtil = mapperUtil;
         this.customerService = customerService;
@@ -43,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
         this.customerRepository = customerRepository;
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
+        this.paymentRepository = paymentRepository;
     }
 
 
@@ -203,11 +202,15 @@ public class OrderServiceImpl implements OrderService {
         if (paymentMethod.equals(PaymentMethod.CREDIT_CARD)) {
             order.setPaidPrice(order.getPaidPrice().subtract(BigDecimal.TEN));
         }
-        order.setPayment(payment);
 
         // initialising payment entity
+        // in the recordings, initialising payment was not inserted database directly.
+        // But it caused other problems so i decided to insert it into DB first
+        // After that we are setting payment value to Order Entity.
         payment.setPaidPrice(order.getPaidPrice());
         payment.setPaymentMethod(paymentMethod);
+        payment = paymentRepository.save(payment);
+        order.setPayment(payment);
 
         // after successful order we have decrease product remaining quantity
         // this stream is subtracting cart item quantity from product remaining quantity
