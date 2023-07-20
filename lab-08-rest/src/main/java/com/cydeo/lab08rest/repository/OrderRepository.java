@@ -1,5 +1,6 @@
 package com.cydeo.lab08rest.repository;
 
+import com.cydeo.lab08rest.entity.Cart;
 import com.cydeo.lab08rest.entity.Order;
 import com.cydeo.lab08rest.enums.PaymentMethod;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,8 +35,9 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     //Write a native query to get all orders by specific categoryId
     @Query(value = "SELECT * FROM orders o JOIN cart c ON o.cart_id = c.id " +
             "JOIN cart_item ci ON ci.cart_id = c.id " +
-            "JOIN product p ON ci.product_id= p.id " +
-            "JOIN category ca ON ca.id = p.c_id WHERE ca.id = ?1", nativeQuery = true)
+            "JOIN product p ON ci.product_id = p.id " +
+            "JOIN product_category_rel pcr ON pcr.p_id = p.id " +
+            "JOIN category ca ON ca.id = pcr.c_id WHERE ca.id = ?1", nativeQuery = true)
     List<Order> retrieveAllOrdersByCategoryId(@Param("id") Long id);
 
     //Write a JPQL query to get all orders by totalPrice and paidPrice are equals
@@ -47,4 +49,5 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     @Query("SELECT o FROM Order o WHERE o.paidPrice<>o.totalPrice AND o.cart.discount IS NOT NULL")
     List<Order> findAllByPaidPriceAndTotalPriceAEqualsAndCartDiscountIdIsNull();
 
+    Order findAllByCart(Cart cart);
 }
